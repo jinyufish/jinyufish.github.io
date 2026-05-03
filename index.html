@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jessy Li — AI Product & Operations</title>
+<meta name="color-scheme" content="light">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;color-scheme:light}
+:root{
+  --cream:#faf9f6;
+  --cream2:#f2f0ea;
+  --cream3:#e8e4da;
+  --sage:#4a7c59;
+  --sage-l:#6a9e78;
+  --sage-pale:#e6f0e9;
+  --sage-border:#b8d4c0;
+  --ink:#1a1814;
+  --ink2:#2c2820;
+  --muted:#6a6050;
+  --muted2:#a09080;
+  --gold:#2a5fad;
+  --gold-bg:#eff6ff;
+  --gold-border:#bfdbfe;
+  --ff:'Nunito',system-ui,sans-serif;
+  --fs:'Lora',Georgia,serif;
+}
+body{background:#faf9f6 !important;color:#1a1814 !important;font-family:var(--ff);font-size:15px;line-height:1.65;overflow-x:hidden;-webkit-text-size-adjust:100%}
+
+/* Force light mode regardless of system preference */
+@media(prefers-color-scheme:dark){
+  html,body{background:#faf9f6 !important;color:#1a1814 !important}
+  body::after{display:none}
+}
+
+/* grain */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;background:rgba(250,249,246,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--cream3)}
+.nav-logo{font-family:var(--fs);font-size:15px;font-weight:600;color:var(--ink)}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--sage)}
+
+/* CONTAINER */
+.c{max-width:900px;margin:0 auto;padding:0 3rem}
+
+/* ─── HERO ─── */
+.hero{padding:8.5rem 3rem 4.5rem;max-width:900px;margin:0 auto}
+.hero-eyebrow{font-size:11px;font-weight:700;color:var(--sage);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.75rem;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--sage)}
+.hero h1{font-family:var(--fs);font-size:clamp(3rem,6vw,5.2rem);font-weight:600;line-height:1.0;letter-spacing:-.025em;color:var(--ink);margin-bottom:1.75rem}
+.hero h1 em{font-style:italic;color:var(--sage)}
+.hero-intro{font-size:1rem;color:var(--muted);line-height:1.8;max-width:500px;margin-bottom:2.25rem}
+.hero-intro strong{color:var(--ink);font-weight:700}
+.hero-btns{display:flex;gap:.625rem}
+.btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--ff);font-size:13px;font-weight:700;padding:.6rem 1.375rem;border-radius:100px;text-decoration:none;transition:all .2s;cursor:pointer;letter-spacing:.01em}
+.btn-p{background:var(--sage);color:#fff;border:1.5px solid var(--sage)}
+.btn-p:hover{background:var(--sage-l);border-color:var(--sage-l);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--muted);border:1.5px solid var(--cream3)}
+.btn-g:hover{color:var(--sage);border-color:var(--sage-border);transform:translateY(-1px)}
+
+/* ─── RULE ─── */
+hr{border:none;border-top:1px solid var(--cream3)}
+
+/* ─── SECTION WRAPPER ─── */
+.sec{padding:4.5rem 0}
+
+/* ─── SECTION LABEL ─── */
+.sec-label{font-size:10.5px;font-weight:700;color:var(--sage);letter-spacing:.12em;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:8px}
+.sec-label::after{content:'';width:32px;height:1px;background:var(--sage-border)}
+
+/* ─── ABOUT ─── */
+/* Left: tight bio. Right: 3 bold proof points */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+
+.about-bio p{font-size:.9375rem;color:var(--muted);line-height:1.85;margin-bottom:.875rem}
+.about-bio p:last-child{margin-bottom:0}
+.about-bio strong{color:var(--ink);font-weight:700}
+
+/* proof points — the RIGHT side carries the "punch" */
+.proof-stack{display:flex;flex-direction:column;gap:.75rem}
+.proof-item{
+  padding:1.25rem 1.375rem;
+  background:var(--cream2);
+  border:1px solid var(--cream3);
+  border-left:3px solid var(--sage);
+  border-radius:0 10px 10px 0;
+  transition:background .2s,border-left-color .2s;
+}
+.proof-item:hover{background:var(--sage-pale);border-left-color:var(--sage-l)}
+.proof-label{font-size:10px;font-weight:700;color:var(--sage);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem}
+.proof-text{font-size:.875rem;color:var(--ink2);line-height:1.55;font-weight:500}
+
+/* ─── PROJECTS ─── */
+.project-card{
+  border:1px solid var(--cream3);
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--cream);
+  margin-bottom:1.5rem;
+  transition:box-shadow .25s,transform .25s;
+}
+.project-card:hover{box-shadow:0 6px 28px rgba(74,124,89,.1);transform:translateY(-2px)}
+.project-card:last-child{margin-bottom:0}
+
+/* header */
+.pc-head{padding:1.75rem 2rem 1.5rem;border-bottom:1px solid var(--cream3)}
+.pc-meta{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem;flex-wrap:wrap}
+.pc-num{font-size:10.5px;font-weight:700;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase}
+.pc-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:100px;letter-spacing:.01em}
+.t-sage{background:var(--sage-pale);color:var(--sage);border:1px solid var(--sage-border)}
+.t-gold{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
+.t-neu{background:var(--cream2);color:var(--muted);border:1px solid var(--cream3)}
+.pc-head h3{font-family:var(--fs);font-size:1.25rem;font-weight:600;color:var(--ink);letter-spacing:-.015em;margin-bottom:.5rem;line-height:1.25}
+.pc-head p{font-size:.875rem;color:var(--muted);line-height:1.7;max-width:560px}
+.pc-head p strong{color:var(--ink);font-weight:700}
+
+/* metrics — BIG and central */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);background:var(--cream2);border-bottom:1px solid var(--cream3)}
+.metric{padding:1.375rem 1.5rem;border-right:1px solid var(--cream3);transition:background .15s}
+.metric:last-child{border-right:none}
+.metric:hover{background:var(--sage-pale)}
+.m-label{font-size:9.5px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.m-num{font-family:var(--fs);font-size:2.1rem;font-weight:600;line-height:1;letter-spacing:-.04em}
+.m-num.s{color:var(--sage)}
+.m-num.g{color:var(--gold)}
+.m-sub{font-size:10.5px;color:var(--muted2);margin-top:4px;line-height:1.4}
+
+/* body: decisions on left (bigger), skills+quote on right (smaller) */
+.pc-body{display:grid;grid-template-columns:1.2fr .8fr;background:var(--cream)}
+.pc-col{padding:1.625rem 2rem}
+.pc-col+.pc-col{border-left:1px solid var(--cream3)}
+.col-label{font-size:9.5px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.875rem}
+
+/* decisions list */
+.decisions{list-style:none;display:flex;flex-direction:column;gap:3px}
+.decisions li{font-size:.8375rem;color:var(--muted);line-height:1.6;padding:.45rem 0 .45rem .875rem;border-left:2px solid var(--cream3)}
+.decisions li.k{color:var(--ink2);border-left-color:var(--sage);font-weight:500}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:1.375rem}
+.chip{font-size:11px;color:var(--muted);padding:3px 9px;border:1px solid var(--cream3);border-radius:100px;background:var(--cream2)}
+
+/* quote */
+.quote{font-family:var(--fs);font-size:.8125rem;font-style:italic;color:var(--muted);line-height:1.8;padding-left:.875rem;border-left:2px solid var(--sage-border)}
+
+/* ─── CAPABILITIES ─── */
+.caps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--cream3);border:1px solid var(--cream3);border-radius:14px;overflow:hidden;margin-top:.25rem}
+.cap{background:var(--cream);padding:1.5rem 1.5rem;transition:background .2s}
+.cap:hover{background:var(--sage-pale)}
+.cap-n{font-family:var(--fs);font-size:1.375rem;font-style:italic;font-weight:400;color:var(--sage-border);margin-bottom:.5rem;line-height:1}
+.cap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.cap-header h3{font-size:1rem;font-weight:700;color:var(--sage);margin:0}
+.cap-arrow{font-size:8px;color:var(--muted2);transition:transform .3s ease;flex-shrink:0}
+.cap:hover .cap-arrow{transform:rotate(180deg)}
+.cap h3{font-size:1rem;font-weight:700;color:var(--sage);margin-bottom:.75rem}
+.cap p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.cap-points{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.cap-points li{font-size:.775rem;line-height:1.55;display:flex;align-items:baseline;gap:4px;flex-wrap:wrap}
+.cap-points li strong{color:var(--ink);font-weight:700;flex-shrink:0}
+.cap-points li span{color:var(--muted2);font-weight:400;max-height:0;overflow:hidden;opacity:0;display:block;transition:max-height .3s ease,opacity .25s ease}
+.cap:hover .cap-points li span{max-height:60px;opacity:1}
+
+/* ─── DIFFERENT ─── */
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-top:.25rem}
+.diff{background:var(--cream2);border:1px solid var(--cream3);border-radius:12px;padding:1.375rem 1.5rem;transition:background .2s,border-color .2s}
+.diff:hover{background:var(--sage-pale);border-color:var(--sage-border)}
+.diff h3{font-size:.875rem;font-weight:700;color:var(--ink);margin-bottom:.3rem}
+.diff p{font-size:.8rem;color:var(--muted);line-height:1.6}
+
+/* ─── SKILLS ─── */
+/* Two columns, left=strong (more weight), right=growing */
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:.25rem}
+.sk-group-title{font-size:10.5px;font-weight:700;color:var(--sage);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.875rem}
+.sk-row{padding:.5rem 0;border-bottom:1px solid var(--cream3);font-size:.875rem;color:var(--ink2)}
+.sk-row:last-child{border-bottom:none}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px}
+.b-s{background:var(--sage-pale);color:var(--sage);border:1px solid var(--sage-border)}
+.b-m{background:var(--cream2);color:var(--muted);border:1px solid var(--cream3)}
+.b-sp{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
+
+/* ─── CONTACT ─── */
+.contact-box{background:var(--cream2);border:1px solid var(--cream3);border-radius:16px;padding:3rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;margin-top:.25rem}
+.contact-box h2{font-family:var(--fs);font-size:1.875rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.375rem}
+.contact-box p{font-size:.9rem;color:var(--muted);line-height:1.75;max-width:380px}
+
+footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);border-top:1px solid var(--cream3);margin-top:4rem}
+
+/* ─── CASE STUDY BUTTON ─── */
+.pc-foot{padding:1.25rem 2rem;border-top:1px solid var(--cream3);background:var(--cream2)}
+.case-btn{background:none;border:1.5px solid var(--sage-border);color:var(--sage);font-family:var(--ff);font-size:13px;font-weight:700;padding:.5rem 1.125rem;border-radius:100px;cursor:pointer;transition:all .2s;letter-spacing:.01em}
+.case-btn:hover{background:var(--sage);color:#fff;border-color:var(--sage)}
+
+/* ─── MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,18,14,.55);z-index:500;display:flex;align-items:flex-start;justify-content:center;padding:3rem 1.5rem;opacity:0;pointer-events:none;transition:opacity .25s;overflow-y:auto}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--cream);border-radius:16px;max-width:720px;width:100%;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.18);transform:translateY(16px);transition:transform .3s ease;position:relative}
+.modal-overlay.open .modal{transform:none}
+.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--cream2);border:1px solid var(--cream3);border-radius:100px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--muted);transition:all .15s;z-index:10}
+.modal-close:hover{background:var(--cream3);color:var(--ink)}
+
+/* modal header */
+.m-head{padding:2rem 2.25rem 1.5rem;border-bottom:1px solid var(--cream3)}
+.m-head .m-num{font-size:10.5px;font-weight:700;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.m-head h2{font-family:var(--fs);font-size:1.5rem;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-bottom:.5rem;line-height:1.2}
+.m-head .m-sub{font-size:.875rem;color:var(--muted);line-height:1.7}
+.m-head .m-sub strong{color:var(--ink);font-weight:600}
+
+/* modal body */
+.m-body{padding:2rem 2.25rem}
+.m-block{margin-bottom:2rem}
+.m-block:last-child{margin-bottom:0}
+.m-block-label{font-size:10px;font-weight:700;color:var(--sage);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.875rem;display:flex;align-items:center;gap:8px}
+.m-block-label::after{content:'';flex:1;height:1px;background:var(--cream3);max-width:40px}
+.m-block p{font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:.75rem}
+.m-block p:last-child{margin-bottom:0}
+.m-block p strong{color:var(--ink);font-weight:600}
+
+/* decision items */
+.m-decisions{display:flex;flex-direction:column;gap:.75rem}
+.m-decision{border:1px solid var(--cream3);border-radius:10px;overflow:hidden;background:var(--cream2)}
+.m-decision-head{display:flex;align-items:center;gap:.75rem;padding:.875rem 1.125rem;background:var(--cream)}
+.m-decision-n{font-size:10px;font-weight:700;color:var(--muted2);letter-spacing:.08em;min-width:20px}
+.m-decision-title{font-size:.875rem;font-weight:700;color:var(--ink);line-height:1.3}
+.m-decision-body{padding:.75rem 1.125rem .875rem 2.5rem;font-size:.8375rem;color:var(--muted);line-height:1.75;border-top:1px solid var(--cream3)}
+.m-decision-body strong{color:var(--ink2);font-weight:600}
+
+/* result pills */
+.m-results{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.25rem;justify-content:center}
+.m-result{flex:1 1 160px;max-width:220px;background:var(--sage-pale);border:1px solid var(--sage-border);border-radius:10px;padding:.875rem 1rem;text-align:center}
+.m-result-num{font-family:var(--fs);font-size:1.625rem;font-weight:600;color:var(--sage);letter-spacing:-.03em;line-height:1}
+.m-result-label{font-size:.8rem;color:var(--muted);margin-top:3px}
+
+/* modal quote */
+.m-quote{font-family:var(--fs);font-style:italic;font-size:.9rem;color:var(--muted);line-height:1.85;padding:1.25rem 1.5rem;background:var(--cream2);border-left:3px solid var(--sage-border);border-radius:0 10px 10px 0;margin-top:.25rem}
+
+@media(max-width:600px){
+  .modal-overlay{padding:1rem .75rem}
+  .m-head,.m-body{padding:1.5rem}
+  .m-results{grid-template-columns:1fr 1fr}
+}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ─── HERO ANIM ─── */
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-eyebrow{animation:up .45s ease both}
+.hero h1{animation:up .45s .08s ease both}
+.hero-intro{animation:up .45s .16s ease both}
+.hero-btns{animation:up .45s .22s ease both}
+
+/* ─── MOBILE ─── */
+@media(max-width:760px){
+  nav{padding:0 1.25rem}.nav-links{display:none}
+  .hero,.c{padding-left:1.25rem;padding-right:1.25rem}
+  .hero{padding-top:6.5rem;padding-bottom:3rem}
+  .about-layout,.pc-body,.skills-layout{grid-template-columns:1fr}
+  .diff-grid{grid-template-columns:1fr 1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .caps-grid{grid-template-columns:1fr}
+  .cap-points{max-height:none !important;opacity:1 !important}
+  .cap-points li span{max-height:none !important;opacity:1 !important;display:block}
+  .cap.collapsed .cap-points li span{display:none}
+  .cap.collapsed .cap-points li strong{display:block}
+  .pc-col+.pc-col{border-left:none;border-top:1px solid var(--cream3)}
+  .contact-box{padding:1.75rem}
+  .sec{padding:3rem 0}
+  .cap{cursor:pointer}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Jessy Li</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Product · Operations · AI</div>
+  <h1>I walk into<br>the mess and<br><em>clean it up.</em></h1>
+  <div class="hero-intro">
+    I build and run entire business lines solo — from identifying opportunities to delivery to upsell — across industries I've never worked in before, with no playbook. Then I make them work well enough that clients try to hire me away.
+  </div>
+  <div class="hero-btns">
+    <a href="#work" class="btn btn-p">See my work ↓</a>
+    <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-g">Get in touch</a>
+  </div>
+</div>
+
+<hr/>
+
+<!-- ABOUT -->
+<div class="c">
+  <section class="sec" id="about">
+    <div class="sec-label">About</div>
+    <div class="about-layout reveal">
+
+      <div class="about-bio">
+        <p>When I was 10, my dad handed me something strange to taste and said: <strong>understand the flavor, don't fear it.</strong> That's how I approach every new problem.</p>
+        <p>I've built AI-powered systems across mortgage, healthcare recruiting, mobile app development, and more — entering each industry from zero. The pattern is always the same: no one tells me how. I figure it out, build the system, and make it work.</p>
+        <p>On the mortgage project, the client's management told my boss — in the room — that they wanted to hire me. Not because I knew the industry. Because <strong>I could turn impossible back to possible, and think ahead of what they hadn't seen yet.</strong></p>
+        <p>I scope the problem, design the system, ship the product, own the outcome, and drive the upsell. <strong>No handoffs. On the North America side, that's entirely me.</strong></p>
+      </div>
+
+      <div class="proof-stack">
+        <div class="proof-item">
+          <div class="proof-label">Where I work</div>
+          <div class="proof-text">Helport AI (NASDAQ) · Since Jan 2024</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-label">How I operate</div>
+          <div class="proof-text">I run the entire North America side solo. Execution teams in the Philippines & Mexico run systems I designed.</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-label">My edge</div>
+          <div class="proof-text">Enter undefined situations. Build the system. Make it scalable, replicable, and impossible to ignore.</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-label">Track record</div>
+          <div class="proof-text">Every partnership I've run has extended. Systems get replicated. Contracts don't end — they grow.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<!-- WORK -->
+<div class="c">
+  <section class="sec" id="work">
+    <div class="sec-label">Work</div>
+    <h2 style="font-family:var(--fs);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:600;letter-spacing:-.02em;margin-bottom:1.75rem">Two projects. Two kinds of hard.</h2>
+
+    <!-- P1 -->
+    <div class="project-card reveal">
+      <div class="pc-head">
+        <div class="pc-meta">
+          <span class="pc-num">01</span>
+          <div class="pc-tags">
+            <span class="tag t-gold">Fintech / Mortgage</span>
+            <span class="tag t-sage">AI Product</span>
+            <span class="tag t-neu">BPO Operations</span>
+          </div>
+        </div>
+        <p style="font-size:.875rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">Built a desktop AI conversation tool for non-QM account executives — real-time call guidance plus AI post-call analysis — helping them close more deals.</p>
+        <p style="font-size:.875rem;color:var(--muted);line-height:1.7;margin-bottom:1rem">The project nearly died. Then it became a <strong style="color:var(--ink)">$2.75M monthly pipeline machine.</strong></p>
+        <p style="font-size:.8125rem;color:var(--sage);font-weight:600;letter-spacing:.01em">→ The client's management asked to hire me away. The AEs who refused to use the product are now asking us for transfers.</p>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><div class="m-label">Transfer growth</div><div class="m-num s">3.5×</div><div class="m-sub">26 → 93 in 4 weeks</div></div>
+        <div class="metric"><div class="m-label">Conversion rate</div><div class="m-num g">60%</div><div class="m-sub">Live transfers (was 5%)</div></div>
+        <div class="metric"><div class="m-label">Loan pipeline</div><div class="m-num s">$2.75M</div><div class="m-sub">Generated per month</div></div>
+        <div class="metric"><div class="m-label">Seats signed</div><div class="m-num g">0→10</div><div class="m-sub">In 30 days</div></div>
+      </div>
+
+      <div class="pc-foot">
+        <button class="case-btn" onclick="openModal('modal1')">Read full case study →</button>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="project-card reveal">
+      <div class="pc-head">
+        <div class="pc-meta">
+          <span class="pc-num">02</span>
+          <div class="pc-tags">
+            <span class="tag t-sage">AI Mobile App</span>
+            <span class="tag t-gold">0 → 1 Product</span>
+            <span class="tag t-neu">iOS</span>
+          </div>
+        </div>
+        <h3>Helport Go — AI-powered mobile CRM, shipped in 2.5 months</h3>
+        <p style="font-size:.875rem;color:var(--muted);line-height:1.7;margin-top:.625rem">An extension of the desktop tool — rebuilt for the realtor field.<br>90% of our target experienced realtors never sat at a desk during client work.<br>I went to find out why, and shipped the mobile CRM in 2.5 months.</p>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><div class="m-label">Mobile-only users</div><div class="m-num s">75%</div><div class="m-sub">Survey validated pivot</div></div>
+        <div class="metric"><div class="m-label">MAU at launch</div><div class="m-num g">232</div><div class="m-sub">Zero ad spend</div></div>
+        <div class="metric"><div class="m-label">Paid conversion</div><div class="m-num s">35%</div><div class="m-sub">Free → paid</div></div>
+        <div class="metric"><div class="m-label">AI engagement</div><div class="m-num g">18×</div><div class="m-sub">AI events vs call events</div></div>
+      </div>
+
+      <div class="pc-foot">
+        <button class="case-btn" onclick="openModal('modal2')">Read full case study →</button>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<hr/>
+
+<!-- CAPABILITIES -->
+<div class="c">
+  <section class="sec reveal">
+    <div class="sec-label">Capabilities</div>
+    <h2 style="font-family:var(--fs);font-size:clamp(1.4rem,2.5vw,1.875rem);font-weight:600;letter-spacing:-.02em;margin-bottom:1.5rem">Full stack of getting things shipped</h2>
+    <div class="caps-grid">
+
+      <div class="cap">
+        <div class="cap-n">01</div><div class="cap-header"><h3>Product & AI</h3></div>
+        <ul class="cap-points">
+          <li><strong>Product strategy & roadmap</strong> <span>— scoped and shipped two AI products from zero</span></li>
+          <li><strong>AI tool configuration</strong> <span>— built real-time call guidance and post-call analysis end-to-end</span></li>
+          <li><strong>UX design & Figma</strong> <span>— designed all screens independently when design team had no capacity</span></li>
+          <li><strong>Field research & user interviews</strong> <span>— went to realtor showings to validate a product pivot</span></li>
+        </ul>
+      </div>
+
+      <div class="cap">
+        <div class="cap-n">02</div><div class="cap-header"><h3>Business & Growth</h3></div>
+        <ul class="cap-points">
+          <li><strong>Business development & deal closing</strong> <span>— identified opportunities, negotiated, and signed clients solo</span></li>
+          <li><strong>Revenue & pricing</strong> <span>— built a performance-based pricing model from pipeline data</span></li>
+          <li><strong>Stakeholder & client negotiation</strong> <span>— turned a nearly-terminated project into an unlimited partnership</span></li>
+          <li><strong>Upsell & client success</strong> <span>— every client I've run has extended their monthly subscription</span></li>
+          <li><strong>Executive-level communication</strong> <span>— presented directly to client CTOs and regional management</span></li>
+          <li><strong>Crisis management & recovery</strong> <span>— saved a project on the verge of termination</span></li>
+        </ul>
+      </div>
+
+      <div class="cap">
+        <div class="cap-n">03</div><div class="cap-header"><h3>Project Management & Ops</h3></div>
+        <ul class="cap-points">
+          <li><strong>BPO team building & management</strong> <span>— built and managed execution teams across Philippines & Mexico</span></li>
+          <li><strong>SOP & playbook design</strong> <span>— standardized operations into a replicable model, deployed across multiple clients</span></li>
+          <li><strong>Customer onboarding</strong> <span>— cut support requests from ~100% to under 10% with one redesign</span></li>
+          <li><strong>Project scoping & delivery</strong> <span>— managed full project lifecycle from discovery to delivery across multiple clients</span></li>
+        </ul>
+      </div>
+
+      <div class="cap">
+        <div class="cap-n">04</div><div class="cap-header"><h3>Marketing & GTM</h3></div>
+        <ul class="cap-points">
+          <li><strong>Event marketing & presence</strong> <span>— managed online and offline event participation with custom visuals and flyers</span></li>
+          <li><strong>Marketing content creation</strong> <span>— designed email visuals, LinkedIn content, and event materials</span></li>
+          <li><strong>Product website design</strong> <span>— designed Helport Go's website and landing page</span></li>
+          <li><strong>Seed user program & partnerships</strong> <span>— recruited seed users for validation and partnered with real estate experts for resources</span></li>
+        </ul>
+      </div>
+
+      <div class="cap">
+        <div class="cap-n">05</div><div class="cap-header"><h3>Data & Analysis</h3></div>
+        <ul class="cap-points">
+          <li><strong>Python / data analysis</strong> <span>— analyzed call recordings to update scripts weekly</span></li>
+          <li><strong>Funnel & conversion analytics</strong> <span>— tracked full loan pipeline from transfer to closed loan</span></li>
+          <li><strong>Feature instrumentation</strong> <span>— instrumented mobile app to discover 18× AI engagement signal</span></li>
+          <li><strong>Strategic insights & reporting</strong> <span>— generated conversion reports, call quality analysis, and risk signals to drive agent performance</span></li>
+        </ul>
+      </div>
+
+      <div class="cap">
+        <div class="cap-n">06</div><div class="cap-header"><h3>Technical</h3></div>
+        <ul class="cap-points">
+          <li><strong>CRM systems (Salesforce)</strong> <span>— integrated and customized for BPO call center operations</span></li>
+          <li><strong>Third-party API research & integration</strong> <span>— evaluated and spec'd virtual dialer systems for engineering to implement</span></li>
+          <li><strong>Engineering communication</strong> <span>— walked global engineering through every design decision</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<!-- SKILLS -->
+<div class="c">
+  <section class="sec" id="skills">
+    <div class="sec-label">What makes me different</div>
+    <h2 style="font-family:var(--fs);font-size:clamp(1.4rem,2.5vw,1.875rem);font-weight:600;letter-spacing:-.02em;margin-bottom:1.5rem">Things most PMs won't say<br>about themselves</h2>
+    <div class="diff-grid reveal">
+      <div class="diff"><h3>I learn domains, not just frameworks</h3><p>I absorbed mortgage from zero until I could teach it. I do this in every new industry I enter.</p></div>
+      <div class="diff"><h3>I test, I don't persuade</h3><p>When a client says "that won't work," I run an experiment. Results close arguments faster than any deck.</p></div>
+      <div class="diff"><h3>I own the mess, not just the win</h3><p>I stay until problems are solved. Every partnership I've run has extended, not ended.</p></div>
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<!-- CONTACT -->
+<div class="c">
+  <section class="sec" id="contact">
+    <div class="contact-box reveal">
+      <div>
+        <h2>Let's talk.</h2>
+        <p>Open to product, operations, and AI roles. If you have something ambiguous that needs to get built — that's my favorite kind of problem.</p>
+      </div>
+      <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-p">Connect on LinkedIn ↗</a>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL 1: Mortgage -->
+<div class="modal-overlay" id="modal1" onclick="closeOnOverlay(event,'modal1')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal1')">✕</button>
+    <div class="m-head">
+      <div class="m-num">Project 01 · Fintech / Mortgage · AI Product · BPO Operations</div>
+      <h2>From compliance crisis to growth engine — in 60 days</h2>
+      <p class="m-sub">Helport AI sells an AI-powered call assistant to sales teams — it listens to live calls and surfaces real-time guidance so agents can respond to complex questions without training. I was brought in to deploy this for a mortgage company's BPO sales floor. <strong>What I inherited: a compliance blocker nobody wanted to solve, a skeptical client, and zero operational infrastructure.</strong></p>
+    </div>
+    <div class="m-body">
+
+      <div class="m-block">
+        <div class="m-block-label">The background</div>
+        <p>Helport AI's product was working. For three months, AEs were using the AI call assistant in real sales conversations — real-time guidance, post-call summaries, Q&A support. Adoption was normal. Nobody was talking about compliance.</p>
+        <p>Then an industry-wide event changed everything: <strong>the first known case of a company being fined for using AI on calls without disclosure.</strong> In the US — especially California — recording or AI-assisted calls require both parties to be informed. Overnight, compliance became a real concern.</p>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">The real problem</div>
+        <p>The legal requirement was clear. The harder problem was human: <strong>AEs refused to adapt their behavior.</strong> Adding a disclosure line — "this call is being recorded and assisted by AI" — felt unnatural, broke sales flow, made them sound less confident, and they believed it would hurt conversion rates.</p>
+        <p>This wasn't a technical failure or a policy gap. It was behavioral resistance at the intersection of legal requirement, user psychology, and business risk — and it nearly killed the project.</p>
+        <p>We tried to engineer around it. We proposed cloning each AE's voice to auto-insert the disclosure, invisible to the caller. We built a QA layer that would silently stop recording the moment disclosure wasn't detected — keeping the call alive, staying compliant. Both solutions were technically sound. The client declined both.</p>
+        <p><strong>Because the real blocker was never the words. AEs didn't want callers to know AI was in the room — full stop.</strong> No amount of clever engineering solves a problem rooted in ego and sales identity. The target user had to change. AE pushback escalated to a collective refusal — and the project came close to being shut down entirely.</p>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">Key decisions</div>
+        <div class="m-decisions">
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">01</span><span class="m-decision-title">Diagnosed the real blocker — and stopped trying to fix the wrong thing</span></div>
+            <div class="m-decision-body">Everyone was treating this as a compliance problem to solve at the product level. I reframed it: the product was fine. <strong>The problem was that AEs, as relationship-driven salespeople, would never comfortably say a disclosure line on a warm call.</strong> No amount of product tweaking would fix a behavior rooted in sales psychology. The target user had to change.</div>
+          </div>
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">02</span><span class="m-decision-title">Pivoted to call center agents — where disclosure is natural</span></div>
+            <div class="m-decision-body">Call center agents work from scripts. Their callers don't expect a warm relationship — they expect a process. Adding a disclosure line to the top of a script is completely natural in this context. <strong>The same compliance requirement that paralyzed AEs was a non-issue for agents.</strong> I rebuilt the entire deployment around this environment: new recruiting, new scripts, new training, CRM, dashboards, SOPs — all designed for a scripted, managed call center operation.</div>
+          </div>
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">03</span><span class="m-decision-title">Used agent data to create internal competitive pressure</span></div>
+            <div class="m-decision-body">Once agents were running with AI assistance, their performance data became a mirror held up to the AE team. <strong>Agents — lower cost, fully scripted — were producing comparable results.</strong> This gave the client's management a concrete, data-backed way to evaluate their AE team's output, tighten accountability, and make staffing decisions. The AI rollout became an internal performance tool, not just a sales tool.</div>
+          </div>
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">04</span><span class="m-decision-title">Built a shared dashboard — before anyone asked</span></div>
+            <div class="m-decision-body">The client had no visibility into their own loan pipeline. I proposed a shared dashboard — accessible to both sides, tamper-proof — tracking the full funnel: transfers and non-transfers with reasons → broker sign-up → loan scenario → submitted → denied / approved → closed loan. The logic was simple: we deliver the leads, but a lead is only as good as what happens next. <strong>This dashboard made sure AEs couldn't let good leads go cold.</strong> If a transfer didn't convert, we could see exactly where it dropped and why — whether that was our lead quality or their follow-through. No more finger-pointing. No more leads going to waste.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">Results</div>
+        <div class="m-results">
+          <div class="m-result"><div class="m-result-num">3.5×</div><div class="m-result-label">Transfer volume in 4 weeks (26 → 93)</div></div>
+          <div class="m-result"><div class="m-result-num">60%</div><div class="m-result-label">Live transfer conversion rate (was 5%)</div></div>
+          <div class="m-result"><div class="m-result-num">$2.75M</div><div class="m-result-label">Avg. loan pipeline generated per month</div></div>
+          <div class="m-result"><div class="m-result-num">0→10</div><div class="m-result-label">Seats signed in 30 days · extended to unlimited term</div></div>
+        </div>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">The moment</div>
+        <p class="m-quote">"The same AEs who collectively refused to use the product and nearly shut the project down are now the ones asking us for transfers. The client's management told my boss — in the room — that they wanted to hire me away. The work did the talking."</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2: Helport Go -->
+<div class="modal-overlay" id="modal2" onclick="closeOnOverlay(event,'modal2')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal2')">✕</button>
+    <div class="m-head">
+      <div class="m-num">Project 02 · AI Mobile App · 0 → 1 Product · iOS</div>
+      <h2>Helport Go — AI-powered mobile CRM, shipped in 2.5 months</h2>
+      <p class="m-sub">Helport AI had a desktop product for real estate agents — an AI assistant that listened to calls and gave real-time guidance. The product existed. But <strong>almost nobody was actually using it in the field.</strong> I went to find out why.</p>
+    </div>
+    <div class="m-body">
+
+      <div class="m-block">
+        <div class="m-block-label">The discovery</div>
+        <p>I asked a client to take me along on a real showing. What I saw: realtors and buyers meet inside the property, walking room to room during the inspection, talking the whole time. <strong>Nobody opens a laptop in someone's living room.</strong> They use their phones — to take notes, share listings, answer questions on the spot.</p>
+        <p>The desktop product wasn't just inconvenient. It was physically unusable in the context that mattered most. I came back and ran a survey through our sales team's network: <strong>90% of realtors used only their phones for client work.</strong> The pivot wasn't optional — it was overdue.</p>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">Key decisions</div>
+        <div class="m-decisions">
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">01</span><span class="m-decision-title">Said no to the boss's feature — with data</span></div>
+            <div class="m-decision-body">Leadership wanted to add a virtual meeting bot that would auto-join and record online meetings — like an Otter AI clone. The survey showed only 1 in 20 realtors ever held virtual meetings. I calculated the dev cost, mapped the competitive landscape (Otter AI already owned this space), and pushed back. <strong>The feature was cut.</strong> Keeping the product focused on what actually mattered — field conversations — was more important than a feature that sounded good in a meeting.</div>
+          </div>
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">02</span><span class="m-decision-title">Diagnosed and fixed a 100% activation failure</span></div>
+            <div class="m-decision-body">After launch, nearly every early user was hitting the same wall before they ever experienced the product: a Twilio phone number registration step that required answering a verification call and entering a code — very confusing to users, and easy to abandon. Seed users flagged it immediately. Engineering had no capacity to prioritize it — other product lines came first. Manually guiding each user wasn't scalable either; this was a B2B2C product with end users we'd never directly reach.
+            <br><br>I went back to my own Figma designs and stripped them down. Removed the animations I'd built for polish, cut the onboarding steps down to just the verification moment that actually mattered, and replaced motion graphics with static visuals for better device compatibility. The goal: make it impossible to get confused. <strong>Two weeks of engineering work became one. Support requests from new users dropped from ~100% to under 10%.</strong></div>
+          </div>
+          <div class="m-decision">
+            <div class="m-decision-head"><span class="m-decision-n">03</span><span class="m-decision-title">Built a CRM around conversations — and the data proved it</span></div>
+            <div class="m-decision-body">From day one, the product vision was never "a calling app." It was a CRM that gets smarter with every conversation. Each call or in-person recording feeds an AI-generated client profile — tagged by interests, needs, communication style — that updates automatically. The idea: the more you use it, the more it knows your clients, and the harder it becomes to leave. After launch, the analytics confirmed it. <strong>AI summary tab interactions outpaced call events 18×</strong> — users were returning to review, reference, and build on past conversations. The product was doing exactly what it was designed to do.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">Results</div>
+        <div class="m-results">
+          <div class="m-result"><div class="m-result-num">232</div><div class="m-result-label">MAU at launch — zero ad spend</div></div>
+          <div class="m-result"><div class="m-result-num">35%</div><div class="m-result-label">Free → paid conversion</div></div>
+          <div class="m-result"><div class="m-result-num">18×</div><div class="m-result-label">AI summary engagement vs. call events</div></div>
+          <div class="m-result"><div class="m-result-num">< 10%</div><div class="m-result-label">Support requests after onboarding fix (was ~100%)</div></div>
+        </div>
+      </div>
+
+      <div class="m-block">
+        <div class="m-block-label">Why it stopped</div>
+        <p class="m-quote">"The product worked. Users converted and came back. However, later discontinued due to R&D budget constraints — the company prioritized other revenue lines."</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>Jessy Li · AI Product & Operations · 2025</footer>
+
+<script>
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeOnOverlay(e,id){
+  if(e.target===document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));
+});
+
+// Mobile collapse for caps
+function initCaps(){
+  if(window.innerWidth > 760) return;
+  document.querySelectorAll('.cap').forEach(cap=>{
+    cap.classList.add('collapsed');
+    cap.querySelector('.cap-header').addEventListener('click',()=>{
+      cap.classList.toggle('collapsed');
+    });
+  });
+}
+initCaps();
+window.addEventListener('resize', initCaps);
+</script>
+</body>
+</html>
