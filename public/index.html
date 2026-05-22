@@ -322,10 +322,7 @@ hr{border:none;border-top:1px solid var(--cream3)}
 .cw-sug-chip{background:transparent;border:1px solid var(--sage-border);color:var(--sage);font-size:11.5px;font-family:var(--ff);font-weight:500;padding:5px 12px;border-radius:20px;cursor:pointer;text-align:left;transition:background .15s,border-color .15s,color .15s;line-height:1.35}
 .cw-sug-chip:hover{background:var(--sage-pale);border-color:var(--sage);color:var(--sage)}
 
-/* chat chips bar */
-.cw-chips-bar{padding:7px 14px 4px;display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0;border-top:1px solid var(--cream3);background:var(--cream)}
-.cw-chip-sm{background:#fff;border:1px solid var(--cream3);color:var(--sage);font-size:11px;font-family:var(--ff);font-weight:600;padding:4px 11px;border-radius:100px;cursor:pointer;transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
-.cw-chip-sm:hover{background:#1e4d35;border-color:#1e4d35;color:#fff}
+
 
 /* input bar */
 .cw-input-bar{padding:7px 14px 12px;display:flex;gap:8px;align-items:flex-end;background:var(--cream);flex-shrink:0}
@@ -685,8 +682,8 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
             </div>
           </div>
           <div class="cw-lang">
-            <button class="cw-lang-btn active" onclick="cwSetLang('en')">EN</button>
-            <button class="cw-lang-btn" onclick="cwSetLang('zh')">中文</button>
+            <button class="cw-lang-btn active" data-lang="en" onclick="cwSetLang('en')">EN</button>
+            <button class="cw-lang-btn" data-lang="zh" onclick="cwSetLang('zh')">中文</button>
           </div>
         </div>
 
@@ -716,10 +713,7 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
         <div class="cw-chat" id="cwChat">
           <div class="cw-chat-area" id="cwChatArea"></div>
           <div class="cw-error" id="cwError">Connection failed. Please check API config.</div>
-          <div class="cw-chips-bar">
-            <button class="cw-chip-sm" id="cwCsm0" onclick="cwSendChip(0)">Current role</button>
-            <button class="cw-chip-sm" id="cwCsm1" onclick="cwSendChip(1)">Her edge</button>
-          </div>
+
           <div class="cw-input-bar">
             <div class="cw-input-wrap">
               <textarea class="cw-textarea" id="cwInput" rows="1"
@@ -924,8 +918,8 @@ const CW_CONFIG={
   user:'visitor-'+Math.random().toString(36).slice(2,8),
 };
 const CW_I18N={
-  en:{status:'Online',heading:'Ask me anything about<br>Jessy\'s career.',sub:'Current role, past projects, what makes her tick — I\'ve got the answers.',chips:['What is Jessy\'s current role?','What\'s Jessy\'s edge?'],chipsSm:['Current role','Her edge'],placeholder:'Ask about Jessy\'s career…',footer:'AI answers based on Jessy\'s career info only.',error:'Connection failed.',noReply:'(No reply received, please try again.)'},
-  zh:{status:'在线',heading:'有关 Jessy 职业经历的问题，<br>尽管问我。',sub:'当前职位、过往项目、她的核心优势——我都能解答。',chips:['Jessy 目前担任什么职位？','Jessy 的核心竞争力是什么？'],chipsSm:['当前职位','核心优势'],placeholder:'询问 Jessy 的职业经历…',footer:'AI 仅回答与 Jessy 职业相关的问题。',error:'连接失败，请检查 API 配置。',noReply:'（未收到回复，请稍后重试）'},
+  en:{status:'Online',heading:'Ask me anything about<br>Jessy\'s career.',sub:'Current role, past projects, what makes her tick — I\'ve got the answers.',chips:['What is Jessy\'s current role?','What\'s Jessy\'s edge?'],placeholder:'Ask about Jessy\'s career…',footer:'AI answers based on Jessy\'s career info only.',error:'Connection failed.',noReply:'(No reply received, please try again.)'},
+  zh:{status:'在线',heading:'有关 Jessy 职业经历的问题，<br>尽管问我。',sub:'当前职位、过往项目、她的核心优势——我都能解答。',chips:['Jessy 目前担任什么职位？','Jessy 的核心竞争力是什么？'],placeholder:'询问 Jessy 的职业经历…',footer:'AI 仅回答与 Jessy 职业相关的问题。',error:'连接失败，请检查 API 配置。',noReply:'（未收到回复，请稍后重试）'},
 };
 let cwLang='en',cwConvId='',cwLoading=false,cwStarted=false;
 let cwHistory=[]; // [{role:'customer'|'agent', content:string}]
@@ -933,7 +927,7 @@ const cwIdleEl=document.getElementById('cwIdle'),cwChatEl=document.getElementByI
 
 function cwSetLang(l){
   cwLang=l;
-  document.querySelectorAll('.cw-lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===l));
+  document.querySelectorAll('.cw-lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
   const t=CW_I18N[l];
   document.getElementById('cwStatus').textContent=t.status;
   document.getElementById('cwIdleHeading').innerHTML=t.heading;
@@ -941,7 +935,6 @@ function cwSetLang(l){
   document.getElementById('cwFooter').textContent=t.footer;
   cwInput.placeholder=t.placeholder;
   t.chips.forEach((c,i)=>{const el=document.getElementById('cwChip'+i);if(el)el.textContent=c;});
-  t.chipsSm.forEach((c,i)=>{const el=document.getElementById('cwCsm'+i);if(el)el.textContent=c;});
 }
 function cwEnterChat(){
   if(cwStarted)return;cwStarted=true;
@@ -949,7 +942,7 @@ function cwEnterChat(){
   setTimeout(()=>{cwIdleEl.style.display='none';cwChatEl.classList.add('active');},240);
 }
 function cwStartChip(idx){const q=CW_I18N[cwLang].chips[idx];cwEnterChat();setTimeout(()=>{cwAddUser(q);cwSend(q);},280);}
-function cwSendChip(idx){if(cwLoading)return;const q=CW_I18N[cwLang].chips[idx];cwAddUser(q);cwSend(q);}
+
 function cwNow(){return new Date().toLocaleTimeString(cwLang==='zh'?'zh-CN':'en-US',{hour:'2-digit',minute:'2-digit'});}
 function cwEsc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 function cwAddUser(text){const r=document.createElement('div');r.className='cw-row user';r.innerHTML=`<span class="cw-ts">${cwNow()}</span><div class="cw-bubble user">${cwEsc(text)}</div>`;cwChatArea.appendChild(r);cwScrollDown();}
