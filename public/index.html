@@ -189,6 +189,167 @@ hr{border:none;border-top:1px solid var(--cream3)}
 .contact-box h2{font-family:var(--fs);font-size:1.875rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.375rem}
 .contact-box p{font-size:.9rem;color:var(--muted);line-height:1.75;max-width:380px}
 
+/* ─── CONTACT + CHAT LAYOUT ─── */
+.cw-contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;margin-top:.25rem}
+.cw-contact-right{display:flex;flex-direction:column;justify-content:center;gap:1.25rem;padding:2rem 0}
+.cw-contact-right h2{font-family:var(--fs);font-size:2.25rem;font-weight:600;letter-spacing:-.025em;line-height:1.1;color:var(--ink)}
+.cw-contact-right p{font-size:.925rem;color:var(--muted);line-height:1.85;max-width:360px}
+
+/* ─── CHAT WIDGET (namespaced .cw-) ─── */
+.cw-wrap{
+  border:1px solid var(--cream3);
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--cream);
+  height:500px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 4px 24px rgba(74,124,89,.08);
+}
+
+/* header */
+.cw-header{
+  background:#1e4d35;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+.cw-avatar{
+  width:38px;
+  height:38px;
+  min-width:38px;
+  min-height:38px;
+  border-radius:50%;
+  background:var(--sage);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--fs);
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+  border:2px solid rgba(255,255,255,.18);
+  line-height:1;
+  flex-shrink:0;
+  flex-grow:0;
+}
+.cw-header-info{flex:1;min-width:0}
+.cw-header-name{font-family:var(--fs);font-size:15px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.cw-header-status{display:flex;align-items:center;gap:5px;margin-top:2px;font-size:11px;color:rgba(255,255,255,.6);font-family:var(--ff)}
+.cw-dot{width:6px;height:6px;min-width:6px;border-radius:50%;background:#6ee7b7;animation:cwPulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes cwPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* lang toggle */
+.cw-lang{display:flex;gap:3px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:2px;flex-shrink:0}
+.cw-lang-btn{background:transparent;border:none;color:rgba(255,255,255,.55);font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:16px;cursor:pointer;transition:all .2s}
+.cw-lang-btn.active{background:#fff;color:#1e4d35}
+
+/* idle screen */
+.cw-idle{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:1.5rem 1.75rem 1.25rem;
+  gap:1.25rem;
+  text-align:center;
+  transition:opacity .25s;
+}
+.cw-idle-av-wrap{position:relative;width:72px;height:72px;flex-shrink:0}
+.cw-idle-av{
+  width:72px;height:72px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#1e4d35,var(--sage));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fs);font-size:26px;font-weight:600;color:#fff;
+  border:2.5px solid var(--cream3);
+}
+.cw-idle-dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#6ee7b7;border-radius:50%;border:2px solid var(--cream)}
+
+.cw-idle-heading{
+  font-family:var(--fs);
+  font-size:1.125rem;
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.015em;
+  color:var(--ink);
+}
+.cw-idle-heading em{font-style:italic;color:var(--sage);font-weight:600}
+.cw-idle-sub{font-size:.8rem;color:var(--muted);font-family:var(--ff);line-height:1.6;max-width:280px}
+
+/* idle chips */
+.cw-chips-idle{display:flex;flex-direction:column;gap:6px;width:100%}
+.cw-chip-idle{
+  background:#fff;border:1px solid var(--cream3);color:var(--ink2);
+  font-size:12.5px;font-family:var(--ff);font-weight:500;
+  padding:9px 14px;border-radius:10px;cursor:pointer;text-align:left;
+  transition:background .15s,border-color .15s,color .15s,transform .12s;line-height:1.35;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cw-chip-idle:hover{background:#1e4d35;border-color:#1e4d35;color:#fff;transform:translateX(3px)}
+.cw-chip-idle .arr{opacity:.35;font-size:11px;transition:opacity .15s;flex-shrink:0;margin-left:8px}
+.cw-chip-idle:hover .arr{opacity:1}
+
+/* chat view */
+.cw-chat{flex:1;display:none;flex-direction:column;overflow:hidden;min-height:0}
+.cw-chat.active{display:flex}
+.cw-chat-area{flex:1;overflow-y:auto;padding:16px 14px 10px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;min-height:0}
+.cw-chat-area::-webkit-scrollbar{width:3px}
+.cw-chat-area::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:3px}
+
+/* messages */
+.cw-row{display:flex;gap:8px;align-items:flex-end}
+.cw-row.bot{flex-direction:row}
+.cw-row.user{flex-direction:row-reverse}
+.cw-msg-av{width:26px;height:26px;min-width:26px;border-radius:50%;background:#1e4d35;display:flex;align-items:center;justify-content:center;font-family:var(--fs);font-size:10px;font-weight:600;color:#fff;flex-shrink:0}
+.cw-bubble{max-width:82%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;font-family:var(--ff)}
+.cw-bubble.bot{background:#fff;color:var(--ink);border-radius:3px 14px 14px 14px;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid var(--cream3)}
+.cw-bubble.user{background:#1e4d35;color:#e8f5ee;border-radius:14px 3px 14px 14px}
+.cw-ts{font-size:9px;color:var(--muted2);font-family:var(--ff);padding:0 2px;align-self:flex-end;flex-shrink:0}
+
+/* typing dots */
+.cw-typing{display:flex;gap:4px;align-items:center;padding:2px 0}
+.cw-typing span{width:6px;height:6px;border-radius:50%;background:var(--sage);animation:cwBounce 1.2s ease-in-out infinite}
+.cw-typing span:nth-child(2){animation-delay:.2s}
+.cw-typing span:nth-child(3){animation-delay:.4s}
+@keyframes cwBounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-5px);opacity:1}}
+
+/* suggestion chips below bot bubble */
+.cw-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:4px 0 2px 38px}
+.cw-sug-chip{background:transparent;border:1px solid var(--sage-border);color:var(--sage);font-size:11.5px;font-family:var(--ff);font-weight:500;padding:5px 12px;border-radius:20px;cursor:pointer;text-align:left;transition:background .15s,border-color .15s,color .15s;line-height:1.35}
+.cw-sug-chip:hover{background:var(--sage-pale);border-color:var(--sage);color:var(--sage)}
+
+/* chat chips bar */
+.cw-chips-bar{padding:7px 14px 4px;display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0;border-top:1px solid var(--cream3);background:var(--cream)}
+.cw-chip-sm{background:#fff;border:1px solid var(--cream3);color:var(--sage);font-size:11px;font-family:var(--ff);font-weight:600;padding:4px 11px;border-radius:100px;cursor:pointer;transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
+.cw-chip-sm:hover{background:#1e4d35;border-color:#1e4d35;color:#fff}
+
+/* input bar */
+.cw-input-bar{padding:7px 14px 12px;display:flex;gap:8px;align-items:flex-end;background:var(--cream);flex-shrink:0}
+.cw-input-wrap{flex:1;background:#fff;border:1.5px solid var(--cream3);border-radius:22px;display:flex;align-items:flex-end;padding:0 12px;transition:border-color .2s;min-height:40px}
+.cw-input-wrap:focus-within{border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,124,89,.08)}
+.cw-textarea{flex:1;border:none;outline:none;background:transparent;font-family:var(--ff);font-size:13.5px;color:var(--ink);resize:none;padding:10px 0;max-height:100px;line-height:1.5}
+.cw-textarea::placeholder{color:var(--muted2)}
+.cw-send{width:40px;height:40px;border-radius:50%;background:#1e4d35;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,transform .1s}
+.cw-send:hover{background:var(--sage)}
+.cw-send:active{transform:scale(.93)}
+.cw-send:disabled{background:var(--cream3);cursor:not-allowed}
+.cw-send svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* error + footer note */
+.cw-error{background:#fff5f5;border-top:1px solid #fecaca;color:#c0392b;font-size:11.5px;padding:6px 14px;text-align:center;display:none;flex-shrink:0;font-family:var(--ff)}
+.cw-error.show{display:block}
+.cw-footer{font-size:10px;color:var(--muted2);text-align:center;padding:3px 14px 8px;font-family:var(--ff);flex-shrink:0}
+
+@media(max-width:760px){
+  .cw-contact-layout{grid-template-columns:1fr}
+  .cw-wrap{height:480px}
+  .cw-contact-right{padding:1rem 0 0}
+}
+
 footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);border-top:1px solid var(--cream3);margin-top:4rem}
 
 /* ─── CASE STUDY BUTTON ─── */
@@ -260,17 +421,27 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
   .hero,.c{padding-left:1.25rem;padding-right:1.25rem}
   .hero{padding-top:6.5rem;padding-bottom:3rem}
   .about-layout,.pc-body,.skills-layout{grid-template-columns:1fr}
-  .diff-grid{grid-template-columns:1fr 1fr}
   .metrics{grid-template-columns:repeat(2,1fr)}
+  /* diff-grid: 2 cols at medium, 3rd item centered */
+  .diff-grid{grid-template-columns:repeat(2,1fr)}
+  .diff:last-child{grid-column:1 / -1;max-width:calc(50% - .4375rem);margin:0 auto;width:100%}
+  /* caps: single col, accordion — all collapsed by default */
   .caps-grid{grid-template-columns:1fr}
-  .cap-points{max-height:none !important;opacity:1 !important}
-  .cap-points li span{max-height:none !important;opacity:1 !important;display:block}
-  .cap.collapsed .cap-points li span{display:none}
-  .cap.collapsed .cap-points li strong{display:block}
+  .cap{cursor:pointer;user-select:none}
+  .cap-points li span{max-height:0;overflow:hidden;opacity:0;display:block;transition:max-height .3s ease,opacity .25s ease}
+  /* active (open) state */
+  .cap.active{background:var(--sage-pale)}
+  .cap.active .cap-header h3{color:var(--sage)}
+  .cap.active .cap-points li span{max-height:80px;opacity:1}
+  .cap.active .cap-arrow{transform:rotate(180deg);color:var(--sage)}
   .pc-col+.pc-col{border-left:none;border-top:1px solid var(--cream3)}
   .contact-box{padding:1.75rem}
   .sec{padding:3rem 0}
-  .cap{cursor:pointer}
+}
+/* diff-grid: 1 col on small mobile */
+@media(max-width:480px){
+  .diff-grid{grid-template-columns:1fr}
+  .diff:last-child{grid-column:auto;max-width:none;margin:0}
 }
 </style>
 </head>
@@ -494,15 +665,87 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
 
 <hr/>
 
-<!-- CONTACT -->
+<!-- CONTACT + CHATBOT -->
 <div class="c">
   <section class="sec" id="contact">
-    <div class="contact-box reveal">
-      <div>
+    <div class="sec-label">Contact</div>
+    <div class="cw-contact-layout reveal">
+
+      <!-- LEFT: chatbot widget -->
+      <div class="cw-wrap">
+
+        <!-- Header -->
+        <div class="cw-header">
+          <div class="cw-avatar">JL</div>
+          <div class="cw-header-info">
+            <div class="cw-header-name">Ask Jessy</div>
+            <div class="cw-header-status">
+              <span class="cw-dot"></span>
+              <span id="cwStatus">Online</span>
+            </div>
+          </div>
+          <div class="cw-lang">
+            <button class="cw-lang-btn active" onclick="cwSetLang('en')">EN</button>
+            <button class="cw-lang-btn" onclick="cwSetLang('zh')">中文</button>
+          </div>
+        </div>
+
+        <!-- Idle screen -->
+        <div class="cw-idle" id="cwIdle">
+          <div class="cw-idle-av-wrap">
+            <div class="cw-idle-av">JL</div>
+            <div class="cw-idle-dot"></div>
+          </div>
+          <div>
+            <div class="cw-idle-heading" id="cwIdleHeading">Ask me anything about<br>Jessy's career.</div>
+            <div class="cw-idle-sub" id="cwIdleSub" style="margin-top:.5rem">Current role, past projects, what makes her tick — I've got the answers.</div>
+          </div>
+          <div class="cw-chips-idle" id="cwChipsIdle">
+            <button class="cw-chip-idle" onclick="cwStartChip(0)">
+              <span id="cwChip0">What is Jessy's current role?</span>
+              <span class="arr">→</span>
+            </button>
+            <button class="cw-chip-idle" onclick="cwStartChip(1)">
+              <span id="cwChip1">What's Jessy's edge?</span>
+              <span class="arr">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat view -->
+        <div class="cw-chat" id="cwChat">
+          <div class="cw-chat-area" id="cwChatArea"></div>
+          <div class="cw-error" id="cwError">Connection failed. Please check API config.</div>
+          <div class="cw-chips-bar">
+            <button class="cw-chip-sm" id="cwCsm0" onclick="cwSendChip(0)">Current role</button>
+            <button class="cw-chip-sm" id="cwCsm1" onclick="cwSendChip(1)">Her edge</button>
+          </div>
+          <div class="cw-input-bar">
+            <div class="cw-input-wrap">
+              <textarea class="cw-textarea" id="cwInput" rows="1"
+                placeholder="Ask about Jessy's career…"
+                onkeydown="cwHandleKey(event)"
+                oninput="cwResize(this)"></textarea>
+            </div>
+            <button class="cw-send" id="cwSendBtn" onclick="cwSendMessage()" aria-label="Send">
+              <svg width="16" height="16" viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+          <div class="cw-footer" id="cwFooter">AI answers based on Jessy's career info only.</div>
+        </div>
+
+      </div><!-- /cw-wrap -->
+
+      <!-- RIGHT: Let's talk -->
+      <div class="cw-contact-right">
         <h2>Let's talk.</h2>
         <p>Open to product, operations, and AI roles. If you have something ambiguous that needs to get built — that's my favorite kind of problem.</p>
+        <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-p">Connect on LinkedIn ↗</a>
       </div>
-      <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-p">Connect on LinkedIn ↗</a>
+
     </div>
   </section>
 </div>
@@ -651,18 +894,174 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));
 });
 
-// Mobile collapse for caps
+// Mobile caps accordion
 function initCaps(){
-  if(window.innerWidth > 760) return;
-  document.querySelectorAll('.cap').forEach(cap=>{
-    cap.classList.add('collapsed');
+  const caps = document.querySelectorAll('.cap');
+  if(window.innerWidth > 760){
+    // Desktop: remove any mobile state
+    caps.forEach(c=>c.classList.remove('active','collapsed','cap-init'));
+    return;
+  }
+  caps.forEach(cap=>{
+    if(cap.dataset.capInit) return; // avoid stacking listeners
+    cap.dataset.capInit = '1';
     cap.querySelector('.cap-header').addEventListener('click',()=>{
-      cap.classList.toggle('collapsed');
+      const isActive = cap.classList.contains('active');
+      // Accordion: close all
+      caps.forEach(c=>c.classList.remove('active'));
+      // Open this one if it wasn't already open
+      if(!isActive) cap.classList.add('active');
     });
   });
 }
 initCaps();
 window.addEventListener('resize', initCaps);
+
+/* ═══════════════════════════════
+   CHATBOT
+   ═══════════════════════════════ */
+const CW_CONFIG={
+  user:'visitor-'+Math.random().toString(36).slice(2,8),
+};
+const CW_I18N={
+  en:{status:'Online',heading:'Ask me anything about<br>Jessy\'s career.',sub:'Current role, past projects, what makes her tick — I\'ve got the answers.',chips:['What is Jessy\'s current role?','What\'s Jessy\'s edge?'],chipsSm:['Current role','Her edge'],placeholder:'Ask about Jessy\'s career…',footer:'AI answers based on Jessy\'s career info only.',error:'Connection failed.',noReply:'(No reply received, please try again.)'},
+  zh:{status:'在线',heading:'有关 Jessy 职业经历的问题，<br>尽管问我。',sub:'当前职位、过往项目、她的核心优势——我都能解答。',chips:['Jessy 目前担任什么职位？','Jessy 的核心竞争力是什么？'],chipsSm:['当前职位','核心优势'],placeholder:'询问 Jessy 的职业经历…',footer:'AI 仅回答与 Jessy 职业相关的问题。',error:'连接失败，请检查 API 配置。',noReply:'（未收到回复，请稍后重试）'},
+};
+let cwLang='en',cwConvId='',cwLoading=false,cwStarted=false;
+let cwHistory=[]; // [{role:'customer'|'agent', content:string}]
+const cwIdleEl=document.getElementById('cwIdle'),cwChatEl=document.getElementById('cwChat'),cwChatArea=document.getElementById('cwChatArea'),cwInput=document.getElementById('cwInput'),cwSendBtn=document.getElementById('cwSendBtn'),cwErrEl=document.getElementById('cwError');
+
+function cwSetLang(l){
+  cwLang=l;
+  document.querySelectorAll('.cw-lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===l));
+  const t=CW_I18N[l];
+  document.getElementById('cwStatus').textContent=t.status;
+  document.getElementById('cwIdleHeading').innerHTML=t.heading;
+  document.getElementById('cwIdleSub').textContent=t.sub;
+  document.getElementById('cwFooter').textContent=t.footer;
+  cwInput.placeholder=t.placeholder;
+  t.chips.forEach((c,i)=>{const el=document.getElementById('cwChip'+i);if(el)el.textContent=c;});
+  t.chipsSm.forEach((c,i)=>{const el=document.getElementById('cwCsm'+i);if(el)el.textContent=c;});
+}
+function cwEnterChat(){
+  if(cwStarted)return;cwStarted=true;
+  cwIdleEl.style.opacity='0';cwIdleEl.style.pointerEvents='none';
+  setTimeout(()=>{cwIdleEl.style.display='none';cwChatEl.classList.add('active');},240);
+}
+function cwStartChip(idx){const q=CW_I18N[cwLang].chips[idx];cwEnterChat();setTimeout(()=>{cwAddUser(q);cwSend(q);},280);}
+function cwSendChip(idx){if(cwLoading)return;const q=CW_I18N[cwLang].chips[idx];cwAddUser(q);cwSend(q);}
+function cwNow(){return new Date().toLocaleTimeString(cwLang==='zh'?'zh-CN':'en-US',{hour:'2-digit',minute:'2-digit'});}
+function cwEsc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function cwAddUser(text){const r=document.createElement('div');r.className='cw-row user';r.innerHTML=`<span class="cw-ts">${cwNow()}</span><div class="cw-bubble user">${cwEsc(text)}</div>`;cwChatArea.appendChild(r);cwScrollDown();}
+function cwAddBot(text){
+  const r=document.createElement('div');r.className='cw-row bot';
+  r.innerHTML=`<div class="cw-msg-av">JL</div><div class="cw-bubble bot">${cwEsc(text)}</div><span class="cw-ts">${cwNow()}</span>`;
+  cwChatArea.appendChild(r);cwScrollDown();
+  return r; // return row so we can append suggestions after it
+}
+function cwAddTyping(){const r=document.createElement('div');r.id='cwTyping';r.className='cw-row bot';r.innerHTML=`<div class="cw-msg-av">JL</div><div class="cw-bubble bot"><div class="cw-typing"><span></span><span></span><span></span></div></div>`;cwChatArea.appendChild(r);cwScrollDown();}
+function cwRemoveTyping(){const t=document.getElementById('cwTyping');if(t)t.remove();}
+function cwScrollDown(){cwChatArea.scrollTop=cwChatArea.scrollHeight;}
+function cwSetLoading(v){cwLoading=v;cwSendBtn.disabled=v;cwInput.disabled=v;}
+function cwShowError(msg){cwErrEl.textContent=msg;cwErrEl.classList.add('show');setTimeout(()=>cwErrEl.classList.remove('show'),4000);}
+
+/* Build context string for 猜你想问 */
+function cwBuildContext(currentQuery){
+  const lines=cwHistory.map(h=>`${h.role==='customer'?'customer':'agent'}: ${h.content}`);
+  lines.push(`customer: ${currentQuery}`);
+  return lines.join('\n');
+}
+
+/* Fetch suggested questions — fires in parallel with main stream */
+async function cwFetchSuggestions(query){
+  try{
+    const resp=await fetch('/api/suggest',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        inputs:{
+          role_prompt:`You are AI Jessy, a portfolio assistant representing Jessy Li. Always respond in ${cwLang==='zh'?'Simplified Chinese':'English'} — ignore the language of the user's message.`,
+          context:cwBuildContext(query),
+        },
+        user:CW_CONFIG.user,
+      }),
+    });
+    if(!resp.ok)return null;
+    const data=await resp.json();
+    const questions=data?.data?.outputs?.result;
+    if(Array.isArray(questions)&&questions.length>0)return questions.slice(0,2);
+    return null;
+  }catch(e){return null;} // suggestions are best-effort, never block
+}
+
+/* Render suggestion chips below a bot message row */
+function cwRenderSuggestions(row,questions){
+  if(!questions||!questions.length)return;
+  const wrap=document.createElement('div');
+  wrap.className='cw-suggestions';
+  questions.forEach(q=>{
+    const btn=document.createElement('button');
+    btn.className='cw-sug-chip';
+    btn.textContent=q;
+    btn.onclick=()=>{
+      wrap.remove(); // remove chips once one is tapped
+      if(cwLoading)return;
+      cwAddUser(q);cwSend(q);
+    };
+    wrap.appendChild(btn);
+  });
+  row.insertAdjacentElement('afterend',wrap);
+  cwScrollDown();
+}
+
+async function cwSend(query){
+  cwSetLoading(true);cwAddTyping();
+
+  // Fire suggestions call immediately in parallel — no await yet
+  const suggestionsPromise=cwFetchSuggestions(query);
+
+  try{
+    const resp=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query,inputs:{response_language:cwLang},conversation_id:cwConvId,user:CW_CONFIG.user})});
+    if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.message||`HTTP ${resp.status}`);}
+    cwRemoveTyping();
+    const row=cwAddBot('');
+    const bubble=row.querySelector('.cw-bubble');
+    let full='';
+    const reader=resp.body.getReader();const dec=new TextDecoder();let buf='';
+    while(true){
+      const{done,value}=await reader.read();if(done)break;
+      buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop();
+      for(const line of lines){
+        if(!line.startsWith('data: '))continue;const raw=line.slice(6).trim();if(!raw||raw==='[DONE]')continue;
+        try{
+          const evt=JSON.parse(raw);
+          if(evt.event==='message'){full+=evt.answer;bubble.innerHTML=cwEsc(full);cwScrollDown();}
+          if(evt.event==='message_end'){cwConvId=evt.conversation_id||cwConvId;}
+          if(evt.event==='error')throw new Error(evt.message);
+        }catch(e){}
+      }
+    }
+    if(!full)bubble.textContent=CW_I18N[cwLang].noReply;
+
+    // Update history after stream completes
+    cwHistory.push({role:'customer',content:query});
+    cwHistory.push({role:'agent',content:full});
+
+    // Wait for suggestions (likely already resolved) then render
+    const suggestions=await suggestionsPromise;
+    cwRenderSuggestions(row,suggestions);
+
+  }catch(err){cwRemoveTyping();cwShowError(CW_I18N[cwLang].error+' '+err.message);}
+  finally{cwSetLoading(false);cwInput.focus();}
+}
+async function cwSendMessage(){
+  const q=cwInput.value.trim();if(!q||cwLoading)return;
+  cwInput.value='';cwResize(cwInput);
+  if(!cwStarted)cwEnterChat();
+  cwAddUser(q);await cwSend(q);
+}
+function cwHandleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();cwSendMessage();}}
+function cwResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 </script>
 </body>
 </html>
