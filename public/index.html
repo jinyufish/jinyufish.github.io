@@ -946,14 +946,16 @@ function cwStartChip(idx){const q=CW_I18N[cwLang].chips[idx];cwEnterChat();setTi
 function cwNow(){return new Date().toLocaleTimeString(cwLang==='zh'?'zh-CN':'en-US',{hour:'2-digit',minute:'2-digit'});}
 function cwEsc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 function cwAddUser(text){const r=document.createElement('div');r.className='cw-row user';r.innerHTML=`<span class="cw-ts">${cwNow()}</span><div class="cw-bubble user">${cwEsc(text)}</div>`;cwChatArea.appendChild(r);cwScrollDown();}
-function cwAddBot(text){
+function cwAddBot(text, typing=false){
   const r=document.createElement('div');r.className='cw-row bot';
-  r.innerHTML=`<div class="cw-msg-av">JL</div><div class="cw-bubble bot">${cwEsc(text)}</div><span class="cw-ts">${cwNow()}</span>`;
+  const inner=typing
+    ?`<div class="cw-typing"><span></span><span></span><span></span></div>`
+    :cwEsc(text);
+  r.innerHTML=`<div class="cw-msg-av">JL</div><div class="cw-bubble bot">${inner}</div><span class="cw-ts">${cwNow()}</span>`;
   cwChatArea.appendChild(r);cwScrollDown();
-  return r; // return row so we can append suggestions after it
+  return r;
 }
-function cwAddTyping(){const r=document.createElement('div');r.id='cwTyping';r.className='cw-row bot';r.innerHTML=`<div class="cw-msg-av">JL</div><div class="cw-bubble bot"><div class="cw-typing"><span></span><span></span><span></span></div></div>`;cwChatArea.appendChild(r);cwScrollDown();}
-function cwRemoveTyping(){const t=document.getElementById('cwTyping');if(t)t.remove();}
+
 function cwScrollDown(){cwChatArea.scrollTop=cwChatArea.scrollHeight;}
 function cwSetLoading(v){cwLoading=v;cwSendBtn.disabled=v;cwInput.disabled=v;}
 function cwShowError(msg){cwErrEl.textContent=msg;cwErrEl.classList.add('show');setTimeout(()=>cwErrEl.classList.remove('show'),4000);}
@@ -1008,17 +1010,18 @@ function cwRenderSuggestions(row,questions){
 }
 
 async function cwSend(query){
-  cwSetLoading(true);cwAddTyping();
+  cwSetLoading(true);
 
   // Fire suggestions call immediately in parallel — no await yet
   const suggestionsPromise=cwFetchSuggestions(query);
 
+  // Show typing dots inside the bubble right away
+  const row=cwAddBot('', true);
+  const bubble=row.querySelector('.cw-bubble');
+
   try{
     const resp=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query,inputs:{response_language:cwLang},conversation_id:cwConvId,user:CW_CONFIG.user})});
     if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.message||`HTTP ${resp.status}`);}
-    cwRemoveTyping();
-    const row=cwAddBot('');
-    const bubble=row.querySelector('.cw-bubble');
     let full='';
     const reader=resp.body.getReader();const dec=new TextDecoder();let buf='';
     while(true){
@@ -1044,7 +1047,7 @@ async function cwSend(query){
     const suggestions=await suggestionsPromise;
     cwRenderSuggestions(row,suggestions);
 
-  }catch(err){cwRemoveTyping();cwShowError(CW_I18N[cwLang].error+' '+err.message);}
+  }catch(err){bubble.innerHTML=cwEsc(CW_I18N[cwLang].error);cwShowError(CW_I18N[cwLang].error+' '+err.message);}
   finally{cwSetLoading(false);cwInput.focus();}
 }
 async function cwSendMessage(){
