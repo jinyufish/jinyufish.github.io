@@ -37,9 +37,10 @@ export default async function handler(req) {
   return new Response(difyResp.body, {
     status: 200,
     headers: {
-      'Content-Type':  'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'X-Accel-Buffering': 'no',
+      'Content-Type':       'text/event-stream',
+      'Cache-Control':      'no-cache, no-transform',
+      'X-Accel-Buffering':  'no',
+      'Transfer-Encoding':  'chunked',
     },
   });
 }
