@@ -1031,7 +1031,7 @@ async function cwSend(query){
         if(!line.startsWith('data: '))continue;const raw=line.slice(6).trim();if(!raw||raw==='[DONE]')continue;
         try{
           const evt=JSON.parse(raw);
-          if(evt.event==='message'){full+=evt.answer;bubble.innerHTML=cwEsc(full);cwScrollDown();}
+          if(evt.event==='message'||evt.event==='agent_message'){full+=evt.answer;if(full)bubble.innerHTML=cwEsc(full);cwScrollDown();}
           if(evt.event==='message_end'){cwConvId=evt.conversation_id||cwConvId;}
           if(evt.event==='error')throw new Error(evt.message);
         }catch(e){}
