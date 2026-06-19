@@ -207,6 +207,35 @@ hr{border:none;border-top:1px solid var(--cream3)}
 
 /* ─── CONTACT + CHAT LAYOUT ─── */
 .cw-contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:2.5rem;align-items:stretch;margin-top:.25rem}
+
+.ai-feature-label{
+  align-self:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:max-content;
+  max-width:100%;
+  margin:0 auto .85rem;
+  padding:.42rem 1rem;
+  border-radius:999px;
+  background:var(--sage-pale);
+  color:var(--sage);
+  border:1px solid var(--sage-border);
+  font-size:11.5px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-align:center;
+  line-height:1.25;
+}
+.ai-feature-block{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+.ai-feature-block .call-card{
+  flex:1;
+  height:auto;
+}
 .ai-gate-wrap{position:relative}
 .ai-gate-wrap #aiContent{filter:blur(10px);pointer-events:none;user-select:none;transition:filter .4s ease}
 .ai-gate-wrap.unlocked #aiContent{filter:none;pointer-events:auto;user-select:auto}
@@ -776,18 +805,23 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
     <div class="cw-contact-layout reveal" id="aiContent">
 
       <!-- LEFT: Call AI voice assistant -->
-      <div class="call-card" id="callCard">
-        <div class="cc-badge"><span class="cc-dot"></span>LIVE · 10 MIN</div>
-        <div class="cc-body">
-          <h2>Hear it. Then You'll Know What Jessy Does.</h2>
-          <p>Want to hear Jessy's experience? Explore her work in a live 10-minute call with her AI voice assistant — a real conversation, not a recording.</p>
-          <a href="tel:+18587420081" class="cc-call-btn">
-            <span class="cc-call-text">Call AI on Your Phone<br><span class="cc-call-num">(858) 742-0081</span></span>
-          </a>
+      <div class="ai-feature-block">
+        <div class="ai-feature-label">Jessy's AI Voice Assistant</div>
+        <div class="call-card" id="callCard">
+          <div class="cc-badge"><span class="cc-dot"></span>LIVE · 10 MIN</div>
+          <div class="cc-body">
+            <h2>Hear it. Then You'll Know What Jessy Does.</h2>
+            <p>Want to hear Jessy's experience? Explore her work in a live 10-minute call with her AI voice assistant — a real conversation, not a recording.</p>
+            <a href="tel:+18587420081" class="cc-call-btn">
+              <span class="cc-call-text">Call AI on Your Phone<br><span class="cc-call-num">(858) 742-0081</span></span>
+            </a>
+          </div>
         </div>
       </div>
 
       <!-- RIGHT: chatbot widget -->
+      <div class="ai-feature-block">
+        <div class="ai-feature-label">Jessy's AI Chatbot</div>
       <div class="cw-wrap">
 
         <!-- Header -->
@@ -851,6 +885,7 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
         </div>
 
       </div><!-- /cw-wrap -->
+      </div><!-- /ai-feature-block -->
 
     </div>
 
