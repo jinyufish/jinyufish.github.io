@@ -206,10 +206,95 @@ hr{border:none;border-top:1px solid var(--cream3)}
 .contact-box p{font-size:.9rem;color:var(--muted);line-height:1.75;max-width:380px}
 
 /* ─── CONTACT + CHAT LAYOUT ─── */
-.cw-contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;margin-top:.25rem}
+.cw-contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:2.5rem;align-items:stretch;margin-top:.25rem}
+.ai-gate-wrap{position:relative}
+.ai-gate-wrap #aiContent{filter:blur(10px);pointer-events:none;user-select:none;transition:filter .4s ease}
+.ai-gate-wrap.unlocked #aiContent{filter:none;pointer-events:auto;user-select:auto}
+.ai-gate-wrap.unlocked .ai-gate-overlay{opacity:0;pointer-events:none}
+.ai-gate-overlay{
+  position:absolute;inset:0;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .4s ease;
+  padding:1rem;
+}
+.ai-gate-card{
+  background:#fff;border:1px solid #e8e4da;border-radius:18px;
+  padding:2.25rem 2rem;max-width:360px;width:100%;
+  box-shadow:0 12px 40px rgba(30,77,53,.16);text-align:center;
+}
+.ai-gate-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  color:#1e4d35;background:rgba(30,77,53,.08);
+  border:1px solid rgba(30,77,53,.18);
+  padding:5px 11px;border-radius:999px;margin-bottom:1rem;
+}
+.ai-gate-title{font-family:var(--fs);font-size:1.25rem;font-weight:600;color:#1a1814;line-height:1.3;margin-bottom:.6rem}
+.ai-gate-sub{font-size:.82rem;color:#a09080;line-height:1.6;margin-bottom:1.25rem}
+.ai-gate-input-row{display:flex;gap:8px}
+.ai-gate-input-row input{
+  flex:1;padding:11px 14px;border:1.5px solid #e8e4da;border-radius:10px;
+  font-family:var(--ff);font-size:14px;color:#1a1814;background:#faf9f6;outline:none;
+}
+.ai-gate-input-row input:focus{border-color:#4a7c59;box-shadow:0 0 0 3px rgba(74,124,89,.1)}
+.ai-gate-input-row button{
+  padding:11px 16px;background:#1e4d35;color:#fff;border:none;border-radius:10px;
+  font-family:var(--ff);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;
+  transition:background .15s;
+}
+.ai-gate-input-row button:hover{background:#4a7c59}
+.ai-gate-err{font-size:11.5px;color:#c0392b;margin-top:.6rem;min-height:16px}
+@media(max-width:480px){.ai-gate-input-row{flex-direction:column}}
 .cw-contact-right{display:flex;flex-direction:column;justify-content:center;gap:1.25rem;padding:2rem 0}
 .cw-contact-right h2{font-family:var(--fs);font-size:2.25rem;font-weight:600;letter-spacing:-.025em;line-height:1.1;color:var(--ink)}
 .cw-contact-right p{font-size:.925rem;color:var(--muted);line-height:1.85;max-width:360px}
+
+.call-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:1.25rem;
+  height:100%;
+  padding:2.25rem;
+  background:#000;
+  border:1.5px solid #000;
+  border-radius:18px;
+  box-sizing:border-box;
+}
+.call-card .cc-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  color:#fff;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  padding:5px 11px;border-radius:999px;
+}
+.call-card .cc-dot{width:6px;height:6px;border-radius:50%;background:#6a9e78;box-shadow:0 0 8px 2px rgba(106,158,120,.8);animation:cc-pulse 1.8s ease-in-out infinite}
+@keyframes cc-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.call-card .cc-body{display:flex;flex-direction:column;gap:1.1rem}
+.call-card h2{font-family:var(--fs);font-size:1.7rem;font-weight:600;letter-spacing:-.02em;line-height:1.22;color:#fdfcf9}
+.call-card p{font-size:.9rem;color:#cfc9bd;line-height:1.75}
+.cc-call-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  text-align:center;
+  background:var(--sage);color:#fff;border:none;
+  padding:.85rem 1.4rem;border-radius:999px;
+  font-family:var(--ff);font-weight:700;font-size:14px;
+  text-decoration:none;line-height:1.3;
+  box-shadow:0 8px 20px -6px rgba(74,124,89,.7);
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.cc-call-btn:hover{background:var(--sage-l);transform:translateY(-2px);box-shadow:0 12px 26px -6px rgba(74,124,89,.85)}
+.cc-call-text{display:flex;flex-direction:column;align-items:center;text-align:center}
+.cc-call-num{display:block;font-weight:600;font-size:12.5px;opacity:.9;margin-top:2px}
+@media(max-width:760px){
+  .call-card{padding:1.75rem;height:auto}
+}
+
+.lets-talk{max-width:480px;margin:3.5rem auto 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.125rem}
+.lets-talk h2{font-family:var(--fs);font-size:2.25rem;font-weight:600;letter-spacing:-.025em;color:var(--ink)}
+.lets-talk p{font-size:.925rem;color:var(--muted);line-height:1.85}
 
 /* ─── CHAT WIDGET (namespaced .cw-) ─── */
 .cw-wrap{
@@ -361,6 +446,9 @@ hr{border:none;border-top:1px solid var(--cream3)}
   .cw-contact-layout{grid-template-columns:1fr}
   .cw-wrap{height:480px}
   .cw-contact-right{padding:1rem 0 0}
+  .call-card{padding:1.5rem}
+  .lets-talk{margin-top:2.5rem}
+  .lets-talk h2{font-size:1.75rem}
 }
 
 footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);border-top:1px solid var(--cream3);margin-top:4rem}
@@ -460,115 +548,6 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
 </head>
 <body>
 
-<!-- ── PASSWORD GATE ── -->
-<div id="pwGate" style="
-  position:fixed;inset:0;z-index:9999;
-  background:#faf9f6;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Nunito',system-ui,sans-serif;
-">
-  <!-- grain overlay matching site -->
-  <div style="position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;opacity:.5"></div>
-
-  <div style="
-    position:relative;
-    background:#fff;
-    border:1px solid #e8e4da;
-    border-radius:20px;
-    padding:3rem 2.5rem 2.5rem;
-    width:100%;max-width:380px;
-    margin:1.5rem;
-    box-shadow:0 8px 40px rgba(74,124,89,.10);
-    text-align:center;
-  ">
-    <!-- Logo mark -->
-    <div style="
-      width:52px;height:52px;border-radius:50%;
-      background:linear-gradient(135deg,#1e4d35,#4a7c59);
-      display:flex;align-items:center;justify-content:center;
-      font-family:'Lora',Georgia,serif;font-size:20px;font-weight:600;color:#fff;
-      margin:0 auto 1.5rem;
-      border:2px solid #e8e4da;
-    ">JL</div>
-
-    <div style="font-family:'Lora',Georgia,serif;font-size:1.5rem;font-weight:600;color:#1a1814;letter-spacing:-.02em;line-height:1.2;margin-bottom:.5rem">
-      Welcome to<br>Jessy Li's World.
-    </div>
-    <div style="font-size:.85rem;color:#a09080;margin-bottom:1.75rem;line-height:1.6">
-      Please enter the password shown at the top of Jessy's resume to continue.
-    </div>
-
-    <div style="position:relative;margin-bottom:.75rem">
-      <input id="pwInput" type="password"
-        placeholder="Password"
-        onkeydown="if(event.key==='Enter')pwCheck()"
-        style="
-          width:100%;padding:12px 44px 12px 16px;
-          border:1.5px solid #e8e4da;border-radius:10px;
-          font-family:'Nunito',system-ui,sans-serif;font-size:14px;color:#1a1814;
-          background:#faf9f6;outline:none;
-          transition:border-color .2s,box-shadow .2s;
-        "
-        onfocus="this.style.borderColor='#4a7c59';this.style.boxShadow='0 0 0 3px rgba(74,124,89,.1)'"
-        onblur="this.style.borderColor='#e8e4da';this.style.boxShadow='none'"
-      />
-      <!-- show/hide toggle -->
-      <button onclick="pwToggle()" style="
-        position:absolute;right:12px;top:50%;transform:translateY(-50%);
-        background:none;border:none;cursor:pointer;color:#a09080;padding:2px;
-        font-size:14px;line-height:1;
-      " id="pwEye">👁</button>
-    </div>
-
-    <div id="pwErr" style="font-size:12px;color:#c0392b;margin-bottom:.75rem;min-height:18px;"></div>
-
-    <button onclick="pwCheck()" style="
-      width:100%;padding:13px;
-      background:#1e4d35;color:#fff;
-      border:none;border-radius:10px;
-      font-family:'Nunito',system-ui,sans-serif;font-size:14px;font-weight:600;
-      cursor:pointer;letter-spacing:.03em;
-      transition:background .15s,transform .1s;
-    "
-    onmouseover="this.style.background='#4a7c59'"
-    onmouseout="this.style.background='#1e4d35'"
-    onmousedown="this.style.transform='scale(.98)'"
-    onmouseup="this.style.transform='scale(1)'"
-    >Enter →</button>
-  </div>
-</div>
-
-<script>
-const PW = 'Welcome2Future2026!';
-function pwCheck(){
-  const v = document.getElementById('pwInput').value;
-  const err = document.getElementById('pwErr');
-  if(v === PW){
-    sessionStorage.setItem('pw_ok','1');
-    const gate = document.getElementById('pwGate');
-    gate.style.transition='opacity .4s';
-    gate.style.opacity='0';
-    setTimeout(()=>gate.remove(), 400);
-  } else {
-    err.textContent = 'Incorrect password. Try again.';
-    document.getElementById('pwInput').style.borderColor='#c0392b';
-    setTimeout(()=>{
-      err.textContent='';
-      document.getElementById('pwInput').style.borderColor='#e8e4da';
-    }, 2500);
-  }
-}
-function pwToggle(){
-  const inp = document.getElementById('pwInput');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-}
-// Skip gate if already authenticated this session
-if(sessionStorage.getItem('pw_ok')==='1'){
-  document.getElementById('pwGate').remove();
-}
-</script>
-<!-- ── /PASSWORD GATE ── -->
-
 <nav>
   <div class="nav-logo">Jessy Li</div>
   <div class="nav-links">
@@ -582,15 +561,14 @@ if(sessionStorage.getItem('pw_ok')==='1'){
 <!-- HERO -->
 <div class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Product · Operations · AI</div>
     <h1>I walk into<br>the mess and<br><em>clean it up.</em></h1>
     <div class="hero-intro">
-      I build and run entire business lines solo — from identifying opportunities to delivery to upsell — across industries I've never worked in before, with no playbook. Then I make them work well enough that clients try to hire me away.
+      I lead new business lines in mortgage, real estate, and legal tech — from opportunity discovery to delivery and upsell — entering unfamiliar domains without a playbook and building them well enough that clients have tried to hire me away.
     </div>
     <div class="hero-btns">
       <a href="#work" class="btn btn-p">See my work ↓</a>
       <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-g">Get in touch</a>
-      <a href="#contact" class="btn btn-ai" onclick="setTimeout(()=>document.getElementById('cwInput')&&document.getElementById('cwInput').focus(),600)">Chat with my AI ✦</a>
+      <a href="#contact" class="btn btn-ai" onclick="setTimeout(()=>document.getElementById('cwInput')&&document.getElementById('cwInput').focus(),600)">Talk to my AI ✦</a>
     </div>
   </div>
 </div>
@@ -794,9 +772,22 @@ if(sessionStorage.getItem('pw_ok')==='1'){
 <div class="c">
   <section class="sec" id="contact">
     <div class="sec-label">Contact</div>
-    <div class="cw-contact-layout reveal">
+    <div class="ai-gate-wrap" id="aiGateWrap">
+    <div class="cw-contact-layout reveal" id="aiContent">
 
-      <!-- LEFT: chatbot widget -->
+      <!-- LEFT: Call AI voice assistant -->
+      <div class="call-card" id="callCard">
+        <div class="cc-badge"><span class="cc-dot"></span>LIVE · 10 MIN</div>
+        <div class="cc-body">
+          <h2>Hear it. Then You'll Know What Jessy Does.</h2>
+          <p>Want to hear Jessy's experience? Explore her work in a live 10-minute call with her AI voice assistant — a real conversation, not a recording.</p>
+          <a href="tel:+18587420081" class="cc-call-btn">
+            <span class="cc-call-text">Call AI Voice Assistant<br><span class="cc-call-num">(858) 742-0081</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: chatbot widget -->
       <div class="cw-wrap">
 
         <!-- Header -->
@@ -861,13 +852,47 @@ if(sessionStorage.getItem('pw_ok')==='1'){
 
       </div><!-- /cw-wrap -->
 
-      <!-- RIGHT: Let's talk -->
-      <div class="cw-contact-right">
-        <h2>Let's talk.</h2>
-        <p>Open to product, operations, and AI roles. If you have something ambiguous that needs to get built — that's my favorite kind of problem.</p>
-        <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-p">Connect on LinkedIn ↗</a>
-      </div>
+    </div>
 
+    <!-- ── AI UNLOCK OVERLAY (covers both AI products, one password unlocks both) ── -->
+    <div class="ai-gate-overlay" id="aiGateOverlay">
+      <div class="ai-gate-card">
+        <div class="ai-gate-title">Try Jessy's AI Voice Call and Chatbot Yourself!</div>
+        <div class="ai-gate-sub">The password is at the top of Jessy's resume.</div>
+        <div class="ai-gate-input-row">
+          <input id="aiGateInput" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')aiGateCheck()"/>
+          <button onclick="aiGateCheck()">Unlock →</button>
+        </div>
+        <div class="ai-gate-err" id="aiGateErr"></div>
+      </div>
+    </div>
+    </div>
+    <script>
+    (function(){
+      const AI_PW = 'Welcome2Future2026!';
+      function unlock(){
+        document.getElementById('aiGateWrap').classList.add('unlocked');
+      }
+      window.aiGateCheck = function(){
+        const v = document.getElementById('aiGateInput').value;
+        const err = document.getElementById('aiGateErr');
+        if(v === AI_PW){
+          sessionStorage.setItem('ai_ok','1');
+          unlock();
+        } else {
+          err.textContent = 'Incorrect password. Try again.';
+          setTimeout(()=>{ err.textContent=''; }, 2500);
+        }
+      };
+      if(sessionStorage.getItem('ai_ok')==='1') unlock();
+    })();
+    </script>
+
+    <!-- Let's talk: centered below -->
+    <div class="lets-talk">
+      <h2>Let's talk.</h2>
+      <p>Open to product, operations, and AI roles. If you have something ambiguous that needs to get built — that's my favorite kind of problem.</p>
+      <a href="https://www.linkedin.com/in/jessy-li-25b6a8256/" target="_blank" class="btn btn-p">Connect on LinkedIn ↗</a>
     </div>
   </section>
 </div>
