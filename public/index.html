@@ -869,14 +869,25 @@ footer{text-align:center;padding:2.5rem;font-size:12px;color:var(--muted2);borde
     </div>
     <script>
     (function(){
-      const AI_PW = 'Welcome2Future2026!';
+      // Password is not stored in plain text in the page source.
+      // Note: this is still a front-end gate, not a substitute for server-side access control.
+      const AI_PW_HASH = 'ddb1c0f52d427dc71b6df674764441c2e3e704cddc945dcfaea654a5eb5e0c7a';
+      const enc = new TextEncoder();
+
+      async function sha256Hex(text){
+        const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
+        return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+      }
+
       function unlock(){
         document.getElementById('aiGateWrap').classList.add('unlocked');
       }
-      window.aiGateCheck = function(){
+
+      window.aiGateCheck = async function(){
         const v = document.getElementById('aiGateInput').value;
         const err = document.getElementById('aiGateErr');
-        if(v === AI_PW){
+        const h = await sha256Hex(v);
+        if(h === AI_PW_HASH){
           sessionStorage.setItem('ai_ok','1');
           unlock();
         } else {
