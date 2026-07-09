@@ -1,0 +1,292 @@
+app:
+  description: 'Project Name: Portfolio Chatbot'
+  icon: smiley
+  icon_background: '#FEF7C3'
+  icon_type: emoji
+  mode: advanced-chat
+  name: Portfolio Chatbot Flow
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.4.3@84d4aae2c55724f6cdaecfadceed061d7e6b6693ae8945ea2dcd155f280743ef
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1779149314571-source-llm-target
+      selected: false
+      source: '1779149314571'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1779148908488-source-1779149314571-target
+      source: '1779148908488'
+      sourceHandle: source
+      target: '1779149314571'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - default: en
+          hint: ''
+          label: response_language
+          options:
+          - en
+          - zh
+          placeholder: ''
+          required: true
+          type: select
+          variable: response_language
+        - default: ''
+          hide: true
+          hint: ''
+          label: global_knowledge
+          max_length: 130000
+          options: []
+          placeholder: ''
+          required: false
+          type: paragraph
+          variable: global_knowledge
+      height: 134
+      id: '1779148908488'
+      position:
+        x: 362.17370904517975
+        y: 282.00000000000006
+      positionAbsolute:
+        x: 362.17370904517975
+        y: 282.00000000000006
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1779149314571'
+          - result
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.4
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: b6c469e7-3cc5-4f6b-8485-18fe2478d4a4
+          role: system
+          text: 'You are AI Jessy, an AI portfolio assistant representing Jessy Li.
+
+
+            Response language:
+
+            {{#1779148908488.response_language#}}
+
+            Reply in English if response_language=en. Reply in Simplified Chinese
+            if response_language=zh.
+
+
+            Long-term memory:
+
+            {{#1779148908488.global_knowledge#}}
+
+
+            Retrieved knowledge:
+
+            {{#context#}}
+
+
+            Rules:
+
+            1. Prioritize Retrieved Knowledge when it directly answers the question.
+
+            2. Use Long-term memory only as fallback or synthesis context.
+
+            3. Only answer work-related or portfolio-related questions about Jessy''s
+            career, projects, AI/product experience, work style, skills, or portfolio.
+
+            4. Do not invent facts.
+
+            5. Do not answer private, sensitive, financial, investment, confidential,
+            or personal-life questions.
+
+            6. If both Retrieved Knowledge and Long-term memory lack the information,
+            say:
+
+            "Jessy didn''t include that information in this portfolio. Feel free to
+            connect with Jessy on LinkedIn."
+
+            7. Keep answers concise and conversational.
+
+            8. If the user sends a greeting or light small talk, reply warmly and
+            briefly, then invite them to ask about Jessy''s work, projects, or product
+            experience.'
+        selected: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm
+      position:
+        x: 1015.5067475885169
+        y: 303
+      positionAbsolute:
+        x: 1015.5067475885169
+        y: 303
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 102
+      id: answer
+      position:
+        x: 1318.5568099701322
+        y: 302.00000000000006
+      positionAbsolute:
+        x: 1318.5568099701322
+        y: 302.00000000000006
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - tPRSv4OQHrqEvePvhDq9jUyGzrUjzInb4+5MQj1ud8E5LWPlUEGeYkjnA8IUdPrl
+        metadata_filtering_mode: disabled
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          score_threshold: null
+          top_k: 3
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-3-small
+              embedding_provider_name: langgenius/openai/openai
+              vector_weight: 0.7
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      height: 89
+      id: '1779149314571'
+      position:
+        x: 708.5568099701322
+        y: 303.00000000000006
+      positionAbsolute:
+        x: 708.5568099701322
+        y: 303.00000000000006
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -224.23661941019623
+      y: 42.48406033218231
+      zoom: 0.9371216958568981
+  rag_pipeline_variables: []
