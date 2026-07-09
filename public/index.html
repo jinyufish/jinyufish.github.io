@@ -1124,6 +1124,13 @@ let cwLang='en',cwConvId='',cwLoading=false,cwStarted=false;
 let cwHistory=[]; // [{role:'customer'|'agent', content:string}]
 const cwIdleEl=document.getElementById('cwIdle'),cwChatEl=document.getElementById('cwChat'),cwChatArea=document.getElementById('cwChatArea'),cwInput=document.getElementById('cwInput'),cwSendBtn=document.getElementById('cwSendBtn'),cwErrEl=document.getElementById('cwError');
 
+// Warm the /api/chat isolate + Supabase cache on first sign of intent, so the
+// user's first real message skips the cold-start wait. Fires once, no Dify cost.
+let cwWarmed=false;
+function cwWarm(){if(cwWarmed)return;cwWarmed=true;fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({warmup:true})}).catch(()=>{});}
+if(cwInput)cwInput.addEventListener('focus',cwWarm,{once:true});
+if(cwIdleEl)cwIdleEl.addEventListener('pointerenter',cwWarm,{once:true});
+
 function cwSetLang(l){
   cwLang=l;
   document.querySelectorAll('.cw-lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
